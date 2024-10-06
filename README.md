@@ -1,2 +1,2 @@
 # NODEJS
-A repo that saves my progress in me learning nodejs
+A repo that saves my progress in learning nodejs
