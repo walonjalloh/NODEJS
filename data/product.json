@@ -1,0 +1,74 @@
+[
+    {
+      "id": 1,
+      "phonename": "Galaxy S23",
+      "ram": "8GB",
+      "rom": "128GB",
+      "size": "6.1 inch",
+      "camerapixel": "50MP",
+      "price": 799
+    },
+    {
+      "id": 2,
+      "phonename": "iPhone 15",
+      "ram": "6GB",
+      "rom": "256GB",
+      "size": "6.1 inch",
+      "camerapixel": "48MP",
+      "price": 999
+    },
+    {
+      "id": 3,
+      "phonename": "Pixel 8",
+      "ram": "12GB",
+      "rom": "256GB",
+      "size": "6.3 inch",
+      "camerapixel": "50MP",
+      "price": 899
+    },
+    {
+      "id": 4,
+      "phonename": "OnePlus 12",
+      "ram": "16GB",
+      "rom": "512GB",
+      "size": "6.7 inch",
+      "camerapixel": "64MP",
+      "price": 899
+    },
+    {
+      "id": 5,
+      "phonename": "Xiaomi Mi 13",
+      "ram": "8GB",
+      "rom": "128GB",
+      "size": "6.28 inch",
+      "camerapixel": "50MP",
+      "price": 699
+    },
+    {
+      "id": 6,
+      "phonename": "Oppo Find X6",
+      "ram": "12GB",
+      "rom": "256GB",
+      "size": "6.82 inch",
+      "camerapixel": "60MP",
+      "price": 799
+    },
+    {
+      "id": 7,
+      "phonename": "Huawei P60",
+      "ram": "8GB",
+      "rom": "256GB",
+      "size": "6.58 inch",
+      "camerapixel": "48MP",
+      "price": 899
+    },
+    {
+      "id": 8,
+      "phonename": "Realme GT 3",
+      "ram": "16GB",
+      "rom": "1TB",
+      "size": "6.74 inch",
+      "camerapixel": "50MP",
+      "price": 799
+    }
+]

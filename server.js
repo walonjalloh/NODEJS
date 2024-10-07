@@ -11,12 +11,25 @@ const app =  http.createServer((request,response) => {
 
     //checking route
     if(path === '/' || path.toLocaleLowerCase() === '/home'){
+        //setting up the header content
+        response.writeHead(200, {
+            'Content-Type': 'text/html'
+        })
         response.end(html.replace('{{content}}', 'HomePage'))
     }else if(path.toLocaleLowerCase() === '/about'){
+        response.writeHead(200,{
+            "Content-Type":'text/html'
+        })
         response.end(html.replace('{{content}}', 'AboutPage'))
     }else if (path.toLocaleLowerCase() === '/contact'){
+        response.writeHead(200,{
+            "Content-Type":"text/html"
+        })
         response.end(html.replace('{{content}}', 'ContactPage'))
     }else{
+        response.writeHead(404,{
+            "Content-Type":"text/html"
+        })
         response.end(html.replace('{{content}}', 'Error 404: Page not found'))
     }
 })
