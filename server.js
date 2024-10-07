@@ -11,13 +11,13 @@ const app =  http.createServer((request,response) => {
 
     //checking route
     if(path === '/' || path.toLocaleLowerCase() === '/home'){
-        response.end('HomePage')
+        response.end(html.replace('{{content}}', 'HomePage'))
     }else if(path.toLocaleLowerCase() === '/about'){
-        response.end('AboutPage')
+        response.end(html.replace('{{content}}', 'AboutPage'))
     }else if (path.toLocaleLowerCase() === '/contact'){
-        response.end('ContactPage')
+        response.end(html.replace('{{content}}', 'ContactPage'))
     }else{
-        response.end('Error 404: Page not found')
+        response.end(html.replace('{{content}}', 'Error 404: Page not found'))
     }
 })
 

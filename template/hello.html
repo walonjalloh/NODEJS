@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <style>
+        h1 {
+            font-weight: bold;
+            color: blue;
+            font-size: larger;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        p {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        a {
+            font: bold;
+
+        }
+        nav {
+            border-bottom: 2px blue solid ;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Node App</title>
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
-<body>
-    <h1>Welcome to my NODE App</h1>
 
-    <div>
-        <p>This is a simple node application that show how the web works in term of request and response</p>
-    </div>
+<body>
+    <header>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/product">Products</a>
+        </nav>
+    </header>
+    <h1>{{content}}</h1>
+
     <script src="./scripts/script.js"></script>
 </body>
+
 </html>
