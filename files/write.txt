@@ -1,0 +1,2 @@
+Data read from the input.txt: my name is walon jalloh 
+Date created Sun Oct 06 2024 21:23:44 GMT+0000 (Greenwich Mean Time)
