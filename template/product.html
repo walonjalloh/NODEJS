@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        div {
+            text-align: center;
+            font: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h2{
+            color: blue;
+            font-size: 20px;
+        }
+        p {
+            color: green;
+            font-size:25px;
+        }
+        span {
+            font-size: 15px;
+            color:black;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h2><span>PhoneName:</span>{{phonename}}</h2>
+            <p><span>Price:</span>{{price}}</p>
+        </div>
+        <div>
+            <h1>Phone Detail</h1>
+            <p><span>RAM:</span>{{ram}}</p>
+            <p><span>ROM:</span>{{rom}}</p>
+            <p><span>Camera-Pixel:</span>{{camerapixel}}</p>
+            <p><span>Screen-Size:</span>{{size}}</p>
+            <a href="/product?id={{id}}">show details</a>
+        </div>
+    </div>
+</body>
+</html>
