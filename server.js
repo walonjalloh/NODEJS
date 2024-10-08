@@ -148,12 +148,32 @@ server.listen(PORT,() => {
 
 // myEmitter.emit('userCreated',101, 'Walon')
 
+//solution1
+// server.on('request', (req,res) => {
+//     fs.readFile('./files/largeFile.txt', (err,data) => {
+//         if(err){
+//             res.end('Error occured')
+//             return;
+//         }
+//         res.end(data)
+//     })
+// })
+
+
+//solution 2
 server.on('request', (req,res) => {
-    fs.readFile('./files/largeFile.txt', (err,data) => {
-        if(err){
-            res.end('Error occured')
-            return;
-        }
-        res.end(data)
+    let rs = fs.createReadStream('./files/largeFile.txt')
+
+    rs.on('data', (chunk) => {
+        res.write(chunk)
     })
+
+    rs.on('end', ()=> {
+        res.end()
+    })
+
+    rs.on('error',(error) => {
+        res.end(error.message)
+    })
+   
 })
