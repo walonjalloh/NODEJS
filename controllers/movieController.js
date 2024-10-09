@@ -1,5 +1,4 @@
-import fs from 'fs'
-
+import fs from "fs";
 const data = JSON.parse(fs.readFileSync("./data/movie.json", "utf-8"));
 
 const getAllMovies = (req, res) => {
@@ -11,20 +10,9 @@ const getAllMovies = (req, res) => {
   });
 };
 
-const getAMovie = (req, res) => {
-  console.log(req.params);
+const getMovie = (req, res) => {
   const { id } = req.params;
-  // const newMovie = data.filter(data => data.id === Number(id))
-  const newMovie = data.find((el) => el.id === Number(id));
-
-  if (!newMovie) {
-    res.status(404).json({
-      status: "fail",
-      message: "Movies ID is invalid",
-    });
-    return;
-  }
-
+  const newMovie = data.find(el => el.id === Number(id))
   res.status(200).json({
     status: "sucess",
     requestedAt: req.requestedAt,
@@ -38,14 +26,6 @@ const updateMovie = (req, res) => {
   const { id } = req.params;
   const newMovie = data.find((el) => el.id === Number(id));
   const index = data.indexOf(newMovie);
-
-  if (!newMovie) {
-    res.status(404).json({
-      status: "fail",
-      message: "An invalid movie ID",
-    });
-    return;
-  }
 
   Object.assign(newMovie, req.body);
   data[index] = newMovie;
@@ -63,14 +43,6 @@ const updateMovie = (req, res) => {
 const deleteMovie = (req, res) => {
   const { id } = req.params;
   const newMovie = data.find((el) => el.id === Number(id));
-
-  if (!newMovie) {
-    res.status(404).json({
-      status: "fail",
-      message: "Invalid movie ID",
-    });
-    return;
-  }
 
   const index = data.indexOf(newMovie);
   data.splice(index, 1);
@@ -103,10 +75,4 @@ const createMovie = (req, res) => {
   });
 };
 
-export {
-    getAMovie,
-    getAllMovies,
-    deleteMovie,
-    updateMovie,
-    createMovie
-}
+export { getMovie, getAllMovies, deleteMovie, updateMovie, createMovie };

@@ -2,10 +2,11 @@ import {
   createMovie,
   deleteMovie,
   updateMovie,
-  getAMovie,
+  getMovie,
   getAllMovies,
 } from "../controllers/movieController.js";
 import express from "express";
+import param from "../middleware/param.js";
 
 
 
@@ -14,6 +15,8 @@ const Router = express.Router();
 
 Router.route("/").get(getAllMovies).post(createMovie);
 
-Router.route("/:id").patch(updateMovie).delete(deleteMovie).get(getAMovie);
+Router.param('id', param)
+
+Router.route("/:id").patch(updateMovie).delete(deleteMovie).get(getMovie);
 
 export { Router };
