@@ -15,16 +15,16 @@ const getAllMovies = async (req, res) => {
   }
 };
 
-const getMovie = async(req, res) => {
+const getMovie = async (req, res) => {
   const { id } = req.params;
   try {
-    const movie = await Movie.findById({id})
-    if(!movie){
-      return res.status(404).json({message:'Invalid movie id'})
+    const movie = await Movie.findById({ id });
+    if (!movie) {
+      return res.status(404).json({ message: "Invalid movie id" });
     }
-    res.status(200).json(movie)
-  }catch(error){
-    res.status(400).json({message:error})
+    res.status(200).json(movie);
+  } catch (error) {
+    res.status(400).json({ message: error });
   }
 };
 
@@ -46,52 +46,49 @@ const updateMovie = (req, res) => {
   });
 };
 
-const deleteMovie = async(req, res) => {
+const deleteMovie = async (req, res) => {
   const { id } = req.params;
   try {
-    const movie = await Movie.findByIdAndDelete({id})
-    if(!movie){
-      return res.status(404).json({message:"invalid movie Id"})
+    const movie = await Movie.findByIdAndDelete({ id });
+    if (!movie) {
+      return res.status(404).json({ message: "invalid movie Id" });
     }
-    res.status(200).json({message:'movie delete'})
-  }catch(error){
-    res.status(400).json({message:"error deleting movie"})
+    res.status(200).json({ message: "movie delete" });
+  } catch (error) {
+    res.status(400).json({ message: "error deleting movie" });
   }
 };
 
-const createMovie = async(req, res) => {
-  const { userId } = req.params
-  const { name, yearrelease, duration }  = req.body
+const createMovie = async (req, res) => {
   try {
-    const user = User.findById({ userId })
-    if(!user){
-      return res.status(404).json({message:"Invalid user id"})
+    const { userId, name, yearrelease, duration } = req.body;
+
+    if (!userId || !name || !yearrelease || !duration) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    if(!name || !yearrelease || !duration){
-      return res.status(400).json({message:"All fields are required"})
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Invalid user ID" });
     }
 
-    const movieExist = await Movie.findOne({name})
-    if(movieExist){
-      return res.status(400).json({message:'movie all ready exist'})
+    const existingMovie = await Movie.findOne({ name });
+    if (existingMovie) {
+      return res.status(400).json({ message: "Movie already exists" });
     }
 
-    const movie = new Movie({
-      name,
-      yearrelease,
-      duration
-    })
-    const savedMovie =  await movie.save()
+    const newMovie = new Movie({ name, yearrelease, duration });
 
+    const savedMovie = await newMovie.save();
 
-    user.movie.push(savedMovie._id)
-    await user.save()
+    user.movies.push(savedMovie._id);
+    await user.save();
 
-  
-    res.status(200).json(savedMovie)
-  }catch(error){
-    res.status(400).json({message:'Error adding movie'})
+    res.status(201).json(savedMovie);
+  } catch (error) {
+    console.error("Error creating movie:");
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

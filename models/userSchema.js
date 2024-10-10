@@ -17,7 +17,7 @@ const userSchema = new Schema({
         required:true,
         minlength:8
     },
-    movie: [{
+    movies: [{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Movie'
     }]

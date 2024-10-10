@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/userSchema.js";
 import jwt from "jsonwebtoken";
+import req from "express/lib/request.js";
 
 const userSignin = async (req, res) => {
   const { username, password } = req.body;
@@ -63,4 +64,19 @@ const userSignup = async (req, res) => {
   }
 };
 
-export { userSignin, userSignup };
+const getAllUser = async(req,res) => {
+  try {
+    const user = await User.find({})
+    if(user.length === 0){
+      return res.status(200).json({message:'No users at the moment'})
+    }
+
+  
+
+    res.status(200).json(user)
+  }catch(error){
+    res.status(500).json({message:"error fetching user"})
+  }
+}
+
+export { userSignin, userSignup,getAllUser };
