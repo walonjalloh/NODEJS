@@ -4,7 +4,6 @@ import { config } from "dotenv";
 config()
 
 const PORT = process.env.PORT
-console.log(process.env)
 
 //starting the server
 app.listen(PORT, () => {

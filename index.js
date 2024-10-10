@@ -1,12 +1,15 @@
 import express from "express";
 import { movieRouter } from "./routes/movieRoute.js";
 import userRouter from "./routes/userRoute.js";
+import connectDB from "./configs/mongoDB.js";
 import fs from 'fs'
 
 const data = fs.readFileSync('./template/greeting.html', 'utf-8')
 
 const app = express();
 const PORT = 3500;
+
+connectDB()
 
 
 //express middleware that enable us to work with json file
