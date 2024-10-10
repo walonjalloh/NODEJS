@@ -11,12 +11,12 @@ import bodyChecker from "../middleware/bodyChecker.js";
 
 
 //defining the router from express
-const Router = express.Router();
+const movieRouter = express.Router();
 
-Router.route("/").get(getAllMovies).post(bodyChecker, createMovie);
+movieRouter.route("/").get(getAllMovies).post(bodyChecker, createMovie);
 
-Router.param('id', param)
+movieRouter.param('id', param)
 
-Router.route("/:id").patch(updateMovie).delete(deleteMovie).get(getMovie);
+movieRouter.route("/:id").patch(updateMovie).delete(deleteMovie).get(getMovie);
 
-export { Router };
+export { movieRouter };
