@@ -7,13 +7,13 @@ import {
 } from "../controllers/movieController.js";
 import express from "express";
 import param from "../middleware/param.js";
-
+import bodyChecker from "../middleware/bodyChecker.js";
 
 
 //defining the router from express
 const Router = express.Router();
 
-Router.route("/").get(getAllMovies).post(createMovie);
+Router.route("/").get(getAllMovies).post(bodyChecker, createMovie);
 
 Router.param('id', param)
 

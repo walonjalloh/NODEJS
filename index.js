@@ -3,6 +3,9 @@ import { Router as movieRouter } from "./routes/route.js";
 // import logger from "./middleware/logger.js";
 import { requestedAt } from "./middleware/requestedAt.js";
 // import morgan from "morgan";
+import fs from 'fs'
+
+const data = fs.readFileSync('./template/greeting.html', 'utf-8')
 
 const app = express();
 const PORT = 3500;
@@ -13,11 +16,11 @@ app.use(express.json());
 // app.use(logger)
 // app.use(morgan('tiny'))
 app.use(requestedAt)
-
+app.use(express.static('./template'))
 
 //default route
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "hello world", status: 200 });
+  res.status(200).send(data);
 });
 
 

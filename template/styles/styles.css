@@ -6,4 +6,19 @@ h1 {
 
 p {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: green;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-between;
+}
+li {
+    list-style: none;
+}
+
+body {
+    margin: 2px;
 }
