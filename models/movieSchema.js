@@ -13,9 +13,8 @@ const movieSchema = new Schema({
         required:true,
     },
     yearrelease :{
-        type:String,
+        type:Number,
         required:true,
-        unqiue:true
     },
     duration: {
         type:Number,
