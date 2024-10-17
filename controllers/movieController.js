@@ -1,76 +1,78 @@
-// import fs from "fs";
-// const data = JSON.parse(fs.readFileSync("./data/movie.json", "utf-8"));
-
-
 import Movie from "../models/movieSchema.js";
 import User from "../models/userSchema.js";
 
-const getAllMovies = async (req, res) => {
+const getAllMovies = async (req, res,next) => {
   try {
-    const movie = await Movie.find({});
-    if (movie.length >= 0 || !movie) {
-      return res.status(404).json({ message: "No movies found" });
+    const movies = await Movie.find({});
+    if (!movies || movies.length === 0) {
+      return res.status(200).json({ message: "No movies found" });
+    }
+    res.status(200).json(movies);
+    next()
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getMovie = async (req, res,next) => {
+  const { id } = req.params;
+
+  try {
+    const movie = await Movie.findById(id);
+    if (!movie) {
+      return res.status(404).json({ message: "Invalid movie ID" });
     }
     res.status(200).json(movie);
+    next()
   } catch (error) {
-    res.status(404).json({ message: error });
+    console.error("Error getting movie:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-const getMovie = async (req, res) => {
+const updateMovie = async (req, res,next) => {
   const { id } = req.params;
+  const { name, yearrelease, duration } = req.body;
+
   try {
-    const movie = await Movie.findById({ id });
+    const movie = await Movie.findByIdAndUpdate(id, { name, yearrelease, duration }, { new: true });
     if (!movie) {
-      return res.status(404).json({ message: "Invalid movie id" });
+      return res.status(404).json({ message: "Invalid movie ID" });
     }
-    res.status(200).json(movie);
+    res.status(200).json({ message: "Movie updated successfully", movie });
+    next()
   } catch (error) {
-    res.status(400).json({ message: error });
+    console.error("Error updating movie:", error);
+    res.status(400).json({ message: "Error updating movie" });
   }
 };
 
-const updateMovie = (req, res) => {
+const deleteMovie = async (req, res,next) => {
   const { id } = req.params;
-  const newMovie = data.find((el) => el.id === Number(id));
-  const index = data.indexOf(newMovie);
 
-  Object.assign(newMovie, req.body);
-  data[index] = newMovie;
-
-  fs.writeFile("./data/movie.json", JSON.stringify(data), (err) => {
-    res.status(200).json({
-      status: "sucess",
-      data: {
-        movie: newMovie,
-      },
-    });
-  });
-};
-
-const deleteMovie = async (req, res) => {
-  const { id } = req.params;
   try {
-    const movie = await Movie.findByIdAndDelete({ id });
+    const movie = await Movie.findByIdAndDelete(id);
     if (!movie) {
-      return res.status(404).json({ message: "invalid movie Id" });
+      return res.status(404).json({ message: "Invalid movie ID" });
     }
-    res.status(200).json({ message: "movie delete" });
+    res.status(200).json({ message: "Movie deleted successfully" });
+    next()
   } catch (error) {
-    res.status(400).json({ message: "error deleting movie" });
+    console.error("Error deleting movie:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-const createMovie = async (req, res) => {
+const createMovie = async (req, res,next) => {
   try {
-    const { id } = req.params
-    const { name, yearrelease, duration } = req.body;
+    const { userId, name, yearrelease, duration } = req.body;
 
-    if ( !name || !yearrelease || !duration) {
-      return res.status(400).json({ message: "All fields are required" });
+    if (!userId || !name || !yearrelease || !duration) {
+      return res.status(400).json({message:"All fields required"})
     }
 
-    const user = await User.findById({ id });
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "Invalid user ID" });
@@ -89,10 +91,11 @@ const createMovie = async (req, res) => {
     await user.save();
 
     res.status(201).json(savedMovie);
+    next()
   } catch (error) {
-    console.error("Error creating movie:");
+    console.error("Error creating movie:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export { getMovie, getAllMovies, deleteMovie, updateMovie, createMovie };
+export { getAllMovies, getMovie, updateMovie, deleteMovie, createMovie };

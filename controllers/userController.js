@@ -1,43 +1,53 @@
 import bcrypt from "bcrypt";
 import User from "../models/userSchema.js";
 import jwt from "jsonwebtoken";
-import req from "express/lib/request.js";
 
-const userSignin = async (req, res) => {
+
+const userSignin = async (req, res,next) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
-      res.send("All fields are required");
+      return res.send("All fields are required");
     }
     const user = await User.findOne({ username });
     if (!user) {
-      return res.send("User does not exist ");
+      return res.status(404).json({ message: 'User not found' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(404).json({ message: "Login Failed" });
+      return res.status(401).json({ message: "Invalid Login Credentials" }); // Use 401 for unauthorized
     }
 
-    const token = jwt.sign({ _id: user_id.toString() }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, {
+      'expiresIn':"20m",
+    });
     const userResponse = user.toObject();
     delete userResponse.password;
-    res.status(200).json({ user: userResponse, token });
+
+    res.cookie("auth",token, {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly:true,
+      sameSite:"None"
+    })
+    res.send('cookie sent')
+    next()
   } catch (error) {
-    res.status(400).json({ message: error });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" }); // Generic error message
   }
 };
 
-const userSignup = async (req, res) => {
+const userSignup = async (req, res,next) => {
   const { fullname, username, password } = req.body;
   try {
     if (!fullname || !username || !password) {
-      return res.status(404).json({ message: "All fields required" });
+      return res.status(400).json({ message: "All fields required" });
     }
 
     const userExist = await User.findOne({ username });
     if (userExist) {
-      return res.status(400).json({ message: "User all ready exist" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const passwordHashed = await bcrypt.hash(password, 10);
@@ -50,33 +60,32 @@ const userSignup = async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign(
-      { _id: user._id.toString() },
-      process.env.JWT_SECRET
-    );
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
     const userResponse = user.toObject();
     delete userResponse.password;
 
     res.status(201).json({ user: userResponse, token });
+    next()
   } catch (error) {
-    res.status(400).json({ message: error });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-const getAllUser = async(req,res) => {
+const getAllUser = async (req, res,next) => {
   try {
-    const user = await User.find({})
-    if(user.length === 0){
-      return res.status(200).json({message:'No users at the moment'})
+    const users = await User.find({});
+    if (users.length === 0) {
+      return res.status(200).json({ message: 'No users at the moment' });
     }
 
-  
-
-    res.status(200).json(user)
-  }catch(error){
-    res.status(500).json({message:"error fetching user"})
+    res.status(200).json(users);
+    next()
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-export { userSignin, userSignup,getAllUser };
+export { userSignin, userSignup, getAllUser };

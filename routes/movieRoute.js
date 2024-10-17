@@ -6,17 +6,14 @@ import {
   getAllMovies,
 } from "../controllers/movieController.js";
 import express from "express";
-import param from "../middleware/param.js";
-import bodyChecker from "../middleware/bodyChecker.js";
 
 
 //defining the router from express
 const movieRouter = express.Router();
 
-movieRouter.route("/").get(getAllMovies);
+movieRouter.route("/").get(getAllMovies).post(createMovie);;
 
-movieRouter.param('id', param)
 
-movieRouter.route("/:id").patch(updateMovie).delete(deleteMovie).get(getMovie).post(createMovie);
+movieRouter.route("/:id").patch(updateMovie).delete(deleteMovie).get(getMovie)
 
 export { movieRouter };

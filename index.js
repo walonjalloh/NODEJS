@@ -6,6 +6,7 @@ import connectDB from './configs/mongoDB.js'
 import { config } from "dotenv";
 import corsOptions from "./configs/corsOptions.js";
 import fs from 'fs'
+import cookieParser from "cookie-parser";
 
 const data = fs.readFileSync('./template/greeting.html', 'utf-8')
 
@@ -18,6 +19,7 @@ connectDB()
 
 
 //express middleware that enable us to work with json file
+app.use(cookieParser())
 app.use(express.json());
 app.use(cors(corsOptions))
 app.use(express.static('./template'))
